@@ -20,6 +20,9 @@ public class CameraPosition : MonoBehaviour
         if(playerPosition.x <= 0.44f){
             m_MainCamera.transform.localPosition = new Vector3(-0.11f, transform.localPosition.y,  transform.localPosition.z);
         }
+        else if(playerPosition.x >= 26.1f){
+            m_MainCamera.transform.localPosition = new Vector3(26.12f, transform.localPosition.y,  transform.localPosition.z);
+        }
         else{
             m_MainCamera.transform.localPosition = new Vector3(playerPosition.x, transform.localPosition.y,  transform.localPosition.z);
         }
