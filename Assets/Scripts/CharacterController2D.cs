@@ -50,6 +50,7 @@ public class CharacterController2D: MonoBehaviour {
     }  
 
     private void HandleAnimation() {
+        
         if (movingDirection != Vector3.zero) {
            animator.SetBool("isMoving", true);
         }
