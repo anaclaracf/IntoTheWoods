@@ -7,6 +7,8 @@ TagManager:
   - Potion
   - Ground
   - Key
+  - Door
+  - Gems
   layers:
   - Default
   - TransparentFX

@@ -12,23 +12,41 @@ public class CharacterController2D: MonoBehaviour {
     private Vector3 direction;
     private Animator animator;
     public GameObject potion;
-    // private Scene scene;
     public float playerJump;
+    public GameObject doorClose;
+    public GameObject life1;
+    public GameObject life2;
+    public GameObject life3;
+    GameManager gm;
+
+    bool nextLevel = false;
 
     int jumpCount = 0;
 
+
     private void Start() {
-       rb = GetComponent<Rigidbody2D>();
-       animator = GetComponent<Animator>();
-       potion = GetComponent<GameObject>();
-    //    scene = GetComponent<>();
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        potion = GetComponent<GameObject>();
+        gm = GameManager.GetInstance();
+        if(gm.vidas == 2){
+            Destroy(life1);
+        }
+        else if(gm.vidas == 1){
+            Destroy(life1);
+            Destroy(life2);
+        }
+        else if(gm.vidas == 0){
+            // tela de morte
+            print("oi");
+        }
     }
 
     private void Update() {
        HandleAnimation();
        HandleMovement();
        HandleJump();
-       Dead();
+       Reset();
     }
 
 
@@ -50,11 +68,16 @@ public class CharacterController2D: MonoBehaviour {
         }
     }
 
-    private void Dead(){
+    private void Reset(){
 
         if(transform.position.y <= -5f){
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene("Level1");
+            gm.pontos = 0;
+            gm.minute = 2;
+            gm.seconds = 0;
+            gm.vidas--;
+           
         }
     }
 
@@ -63,24 +86,25 @@ public class CharacterController2D: MonoBehaviour {
          if (collision.gameObject.tag == "Potion"){
             Destroy(collision.gameObject);
             this.transform.localScale =  new Vector3(1.0f, 1.0f,1.0f);
-            // animator.SetBool("isMini", true);
-            // Debug.Log("Do something here");
         }
-        // animator.SetBool("isMini", false);
         if (collision.gameObject.tag == "Ground"){
             jumpCount = 0;
         }
         if (collision.gameObject.tag == "Key"){
             Destroy(collision.gameObject);
-            // doorClose.GetComponent<Renderer>().enabled = false;
-            // doorClose.SetActive(false);
-            GameObject.Find("doorClosed").GetComponent<GameObject>().SetActive(false);
+            doorClose.SetActive(false);
+            nextLevel = true;
         }
-    }
+        if (collision.gameObject.tag == "Door" && nextLevel){
+            SceneManager.LoadScene("Level2");
+        }
+        if(collision.gameObject.tag=="Gems"){
+            Destroy(collision.gameObject);
+            gm.pontos++;
+        }
 
-    private void OnDrawGizmos() {
-        Gizmos.DrawRay(transform.position, transform.right * 2);
-    }  
+
+    }
 
     private void HandleAnimation() {
         
