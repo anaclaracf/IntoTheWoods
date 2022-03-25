@@ -17,14 +17,15 @@ public class GameManager
 
     public static GameManager GetInstance()
     {
-       if(_instance == null)
-       {
-           _instance = new GameManager();
-       }
+        if (_instance == null)
+        {
+            _instance = new GameManager();
+        }
 
-       return _instance;
+        return _instance;
     }
-    private GameManager(){
+    private GameManager()
+    {
         vidas = 3;
         pontos = 0;
         minute = 2;
@@ -32,15 +33,18 @@ public class GameManager
         gameState = GameState.MENU;
     }
 
-    private void Reset(){
+    private void Reset()
+    {
         vidas = 3;
         pontos = 0;
         minute = 2;
         seconds = 0;
     }
 
-    public void ChangeState(GameState nextState){
-        if ((gameState == GameState.ENDGAME || gameState == GameState.MENU) && nextState == GameState.GAME) Reset();
+    public void ChangeState(GameState nextState)
+    {
+        if ((gameState == GameState.ENDGAME || gameState == GameState.MENU) && nextState == GameState.GAME)
+            Reset();
         gameState = nextState;
         changeStateDelegate();
     }
