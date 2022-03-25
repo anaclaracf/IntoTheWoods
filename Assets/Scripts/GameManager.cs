@@ -12,6 +12,8 @@ public class GameManager
     public int pontos;
     public int minute;
     public float seconds;
+    public delegate void ChangeStateDelegate();
+    public static ChangeStateDelegate changeStateDelegate;
 
     public static GameManager GetInstance()
     {
@@ -22,12 +24,24 @@ public class GameManager
 
        return _instance;
     }
-    private GameManager()
-    {
+    private GameManager(){
         vidas = 3;
         pontos = 0;
         minute = 2;
         seconds = 0;
-        gameState = GameState.GAME;
+        gameState = GameState.MENU;
+    }
+
+    private void Reset(){
+        vidas = 3;
+        pontos = 0;
+        minute = 2;
+        seconds = 0;
+    }
+
+    public void ChangeState(GameState nextState){
+        if ((gameState == GameState.ENDGAME || gameState == GameState.MENU) && nextState == GameState.GAME) Reset();
+        gameState = nextState;
+        changeStateDelegate();
     }
 }

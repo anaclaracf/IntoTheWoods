@@ -23,12 +23,19 @@ public class CharacterController2D: MonoBehaviour {
 
     int jumpCount = 0;
 
+    public AudioClip gem;
+    public AudioClip drink;
+    public AudioClip key;
+    AudioSource audioSource;
+
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         potion = GetComponent<GameObject>();
         gm = GameManager.GetInstance();
+        audioSource = GetComponent<AudioSource>();
+
         if(gm.vidas == 2){
             Destroy(life1);
         }
@@ -37,8 +44,7 @@ public class CharacterController2D: MonoBehaviour {
             Destroy(life2);
         }
         else if(gm.vidas == 0){
-            // tela de morte
-            print("oi");
+            gm.ChangeState(GameManager.GameState.ENDGAME);
         }
     }
 
@@ -85,6 +91,7 @@ public class CharacterController2D: MonoBehaviour {
 
          if (collision.gameObject.tag == "Potion"){
             Destroy(collision.gameObject);
+            audioSource.PlayOneShot(drink, 0.2f);
             this.transform.localScale =  new Vector3(1.0f, 1.0f,1.0f);
         }
         if (collision.gameObject.tag == "Ground"){
@@ -93,6 +100,7 @@ public class CharacterController2D: MonoBehaviour {
         if (collision.gameObject.tag == "Key"){
             Destroy(collision.gameObject);
             doorClose.SetActive(false);
+            audioSource.PlayOneShot(key, 0.2f);
             nextLevel = true;
         }
         if (collision.gameObject.tag == "Door" && nextLevel){
@@ -100,6 +108,7 @@ public class CharacterController2D: MonoBehaviour {
         }
         if(collision.gameObject.tag=="Gems"){
             Destroy(collision.gameObject);
+            audioSource.PlayOneShot(gem, 0.1f);
             gm.pontos++;
         }
 
