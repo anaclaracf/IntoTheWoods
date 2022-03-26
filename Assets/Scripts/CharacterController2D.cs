@@ -22,13 +22,14 @@ public class CharacterController2D : MonoBehaviour
     bool nextLevel = false;
 
     int jumpCount = 0;
+    int facingLeft = 0;
 
     public AudioClip gem;
     public AudioClip drink;
     public AudioClip key;
     AudioSource audioSource;
 
-    GameObject [] allGems;
+    GameObject[] allGems;
     GameObject potion;
     GameObject keys;
 
@@ -69,7 +70,7 @@ public class CharacterController2D : MonoBehaviour
             gm.ChangeState(GameManager.GameState.ENDGAME);
             life1.SetActive(true);
             life2.SetActive(true);
-            
+
         }
     }
 
@@ -78,6 +79,21 @@ public class CharacterController2D : MonoBehaviour
     {
         float hAxis = Input.GetAxis("Horizontal");
         direction = new Vector3(hAxis, 0).normalized;
+
+        if (direction.x < 0 && facingLeft == 0)
+        {
+            Vector3 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
+            facingLeft = 1;
+        }
+        if (direction.x > 0 && facingLeft == 1)
+        {
+            Vector3 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
+            facingLeft = 0;
+        }
         Vector3 vel = new Vector3(0, rb.velocity.y, 0);
         rb.velocity = (direction * speed) + vel;
     }
@@ -105,10 +121,11 @@ public class CharacterController2D : MonoBehaviour
 
             if (gm.vidas > 0)
             {
-                this.transform.position = new Vector3(-2.55f,-1.17f,0f);
+                this.transform.position = new Vector3(-2.55f, -1.17f, 0f);
                 this.transform.localScale = new Vector3(2f, 2f, 2f);
-                foreach (GameObject g in allGems){
-                       g.SetActive(true);
+                foreach (GameObject g in allGems)
+                {
+                    g.SetActive(true);
                 }
                 keys.SetActive(true);
                 potion.SetActive(true);
