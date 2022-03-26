@@ -30,7 +30,8 @@ public class Clock : MonoBehaviour
         if (gm.minute < 0)
         {
             textClock.text = "00:00";
-            // gm.ChangeState(GameManager.GameState.ENDGAME);
+            gm.vidas = 0;
+            gm.ChangeState(GameManager.GameState.ENDGAME);
 
         }
         if (gm.seconds <= 0)

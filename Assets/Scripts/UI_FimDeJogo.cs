@@ -11,16 +11,19 @@ public class UI_FimDeJogo : MonoBehaviour
 
         if (gm.vidas > 0)
         {
-            message.text = "Você Ganhou!!!";
+            message.text = "Level Complete";
         }
         else
         {
-            message.text = "Você Perdeu!!";
+            message.text = "Maybe Next Time...";
         }
     }
 
     public void Voltar()
     {
-        gm.ChangeState(GameManager.GameState.GAME);
+        gm.ChangeState(GameManager.GameState.MENU);
     }
+
+    void Start() { }
+    void Update() { }
 }

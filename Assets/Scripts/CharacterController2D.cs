@@ -47,8 +47,9 @@ public class CharacterController2D : MonoBehaviour
             Destroy(life1);
             Destroy(life2);
         }
-        else if (gm.vidas == 0)
+        else if (gm.vidas == 0 && gm.gameState == GameManager.GameState.GAME)
         {
+            print("aqui");
             gm.ChangeState(GameManager.GameState.ENDGAME);
         }
     }
@@ -62,6 +63,11 @@ public class CharacterController2D : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && gm.gameState == GameManager.GameState.GAME)
         {
             gm.ChangeState(GameManager.GameState.PAUSE);
+        }
+        if (gm.vidas == 0 && gm.gameState == GameManager.GameState.GAME)
+        {
+            print("aqui");
+            gm.ChangeState(GameManager.GameState.ENDGAME);
         }
     }
 
@@ -88,17 +94,27 @@ public class CharacterController2D : MonoBehaviour
         }
     }
 
+
     private void Reset()
     {
 
         if (transform.position.y <= -5f)
         {
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene("Level1");
+
+            if (gm.vidas > 0)
+            {
+
+                Scene scene = SceneManager.GetActiveScene();
+                SceneManager.LoadScene("Level1");
+
+
+            }
+
             gm.pontos = 0;
             gm.minute = 2;
             gm.seconds = 0;
             gm.vidas--;
+
 
         }
     }

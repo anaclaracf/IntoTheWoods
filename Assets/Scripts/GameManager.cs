@@ -43,8 +43,8 @@ public class GameManager
 
     public void ChangeState(GameState nextState)
     {
-        if ((gameState == GameState.ENDGAME || gameState == GameState.MENU) && nextState == GameState.GAME)
-            Reset();
+        // if ((gameState == GameState.ENDGAME || gameState == GameState.MENU) && nextState == GameState.GAME)
+        //     Reset();
         gameState = nextState;
         changeStateDelegate();
     }
