@@ -1633,7 +1633,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  potion: {fileID: 214175823}
   playerJump: 7
   doorClose: {fileID: 903033295}
   life1: {fileID: 240829588}

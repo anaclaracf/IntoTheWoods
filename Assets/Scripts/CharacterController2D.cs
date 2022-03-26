@@ -12,7 +12,6 @@ public class CharacterController2D : MonoBehaviour
     private Rigidbody2D rb;
     private Vector3 direction;
     private Animator animator;
-    public GameObject potion;
     public float playerJump;
     public GameObject doorClose;
     public GameObject life1;
@@ -29,6 +28,9 @@ public class CharacterController2D : MonoBehaviour
     public AudioClip key;
     AudioSource audioSource;
 
+    GameObject [] allGems;
+    GameObject potion;
+    GameObject keys;
 
     private void Start()
     {
@@ -37,21 +39,9 @@ public class CharacterController2D : MonoBehaviour
         potion = GetComponent<GameObject>();
         gm = GameManager.GetInstance();
         audioSource = GetComponent<AudioSource>();
-
-        if (gm.vidas == 2)
-        {
-            Destroy(life1);
-        }
-        else if (gm.vidas == 1)
-        {
-            Destroy(life1);
-            Destroy(life2);
-        }
-        else if (gm.vidas == 0 && gm.gameState == GameManager.GameState.GAME)
-        {
-            print("aqui");
-            gm.ChangeState(GameManager.GameState.ENDGAME);
-        }
+        allGems = GameObject.FindGameObjectsWithTag("Gems");
+        potion = GameObject.FindGameObjectWithTag("Potion");
+        keys = GameObject.FindGameObjectWithTag("Key");
     }
 
     private void Update()
@@ -64,10 +54,22 @@ public class CharacterController2D : MonoBehaviour
         {
             gm.ChangeState(GameManager.GameState.PAUSE);
         }
-        if (gm.vidas == 0 && gm.gameState == GameManager.GameState.GAME)
+        if (gm.vidas == 2)
+        {
+            life1.SetActive(false);
+        }
+        else if (gm.vidas == 1)
+        {
+            life1.SetActive(false);
+            life2.SetActive(false);
+        }
+        else if (gm.vidas == 0 && gm.gameState == GameManager.GameState.GAME)
         {
             print("aqui");
             gm.ChangeState(GameManager.GameState.ENDGAME);
+            life1.SetActive(true);
+            life2.SetActive(true);
+            
         }
     }
 
@@ -103,13 +105,17 @@ public class CharacterController2D : MonoBehaviour
 
             if (gm.vidas > 0)
             {
-
-                Scene scene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene("Level1");
-
+                this.transform.position = new Vector3(-2.55f,-1.17f,0f);
+                this.transform.localScale = new Vector3(2f, 2f, 2f);
+                foreach (GameObject g in allGems){
+                       g.SetActive(true);
+                }
+                keys.SetActive(true);
+                potion.SetActive(true);
+                doorClose.SetActive(true);
+                nextLevel = false;
 
             }
-
             gm.pontos = 0;
             gm.minute = 2;
             gm.seconds = 0;
@@ -124,7 +130,7 @@ public class CharacterController2D : MonoBehaviour
 
         if (collision.gameObject.tag == "Potion")
         {
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             audioSource.PlayOneShot(drink, 0.2f);
             this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
@@ -134,7 +140,7 @@ public class CharacterController2D : MonoBehaviour
         }
         if (collision.gameObject.tag == "Key")
         {
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             doorClose.SetActive(false);
             audioSource.PlayOneShot(key, 0.2f);
             nextLevel = true;
@@ -145,7 +151,7 @@ public class CharacterController2D : MonoBehaviour
         }
         if (collision.gameObject.tag == "Gems")
         {
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             audioSource.PlayOneShot(gem, 0.1f);
             gm.pontos++;
         }
