@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 public class UI_FimDeJogo : MonoBehaviour
 {
     public Text message;
 
     GameManager gm;
+    public GameObject canvas;
+
     private void OnEnable()
     {
         gm = GameManager.GetInstance();
@@ -21,7 +25,10 @@ public class UI_FimDeJogo : MonoBehaviour
 
     public void Voltar()
     {
+        DontDestroyOnLoad(canvas);
+        SceneManager.LoadScene("Level1");
         gm.ChangeState(GameManager.GameState.MENU);
+
     }
 
     void Start() { }

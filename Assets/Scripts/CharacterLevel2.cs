@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class CharacterController2D : MonoBehaviour
+public class CharacterLevel2 : MonoBehaviour
 {
 
     public float speed = 10.0f;
@@ -31,10 +31,10 @@ public class CharacterController2D : MonoBehaviour
 
     GameObject[] allGems;
     GameObject potion;
-
     GameObject keys;
 
     public GameObject canvas;
+
 
     private void Start()
     {
@@ -46,10 +46,16 @@ public class CharacterController2D : MonoBehaviour
         allGems = GameObject.FindGameObjectsWithTag("Gems");
         potion = GameObject.FindGameObjectWithTag("Potion");
         keys = GameObject.FindGameObjectWithTag("Key");
+        gm.minute = 2;
+        gm.seconds = 0;
+        gm.ChangeState(GameManager.GameState.GAME);
+
     }
 
     private void Update()
     {
+
+        // print(gm.gameState);
         HandleAnimation();
         HandleMovement();
         HandleJump();
@@ -119,13 +125,13 @@ public class CharacterController2D : MonoBehaviour
     private void Reset()
     {
 
-        if (transform.position.y <= -5f)
+        if (transform.position.y <= -19f)
         {
 
             if (gm.vidas > 0)
             {
                 this.transform.position = new Vector3(-2.55f, -1.17f, 0f);
-                this.transform.localScale = new Vector3(2f, 2f, 2f);
+                playerJump = 7;
                 foreach (GameObject g in allGems)
                 {
                     g.SetActive(true);
@@ -136,6 +142,7 @@ public class CharacterController2D : MonoBehaviour
                 nextLevel = false;
 
             }
+
             gm.pontos = 0;
             gm.minute = 2;
             gm.seconds = 0;
@@ -152,7 +159,7 @@ public class CharacterController2D : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             audioSource.PlayOneShot(drink, 0.2f);
-            this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            playerJump = 12;
         }
         if (collision.gameObject.tag == "Ground")
         {
@@ -168,7 +175,7 @@ public class CharacterController2D : MonoBehaviour
         if (collision.gameObject.tag == "Door" && nextLevel)
         {
             DontDestroyOnLoad(canvas);
-            SceneManager.LoadScene("Level2");
+            SceneManager.LoadScene("Level3");
         }
         if (collision.gameObject.tag == "Gems")
         {

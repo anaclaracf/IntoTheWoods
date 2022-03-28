@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraPosition : MonoBehaviour
+public class CameraPositionLevel2 : MonoBehaviour
 {
     Camera m_MainCamera;
     // Start is called before the first frame update
@@ -19,15 +19,15 @@ public class CameraPosition : MonoBehaviour
 
         if (playerPosition.x <= 0.44f)
         {
-            m_MainCamera.transform.localPosition = new Vector3(-0.11f, transform.localPosition.y, transform.localPosition.z);
+            m_MainCamera.transform.localPosition = new Vector3(-0.11f, playerPosition.y, transform.localPosition.z);
         }
-        else if (playerPosition.x >= 26.1f)
+        else if (playerPosition.x >= 71.5f)
         {
-            m_MainCamera.transform.localPosition = new Vector3(26.12f, transform.localPosition.y, transform.localPosition.z);
+            m_MainCamera.transform.localPosition = new Vector3(71.76f, playerPosition.y, transform.localPosition.z);
         }
         else
         {
-            m_MainCamera.transform.localPosition = new Vector3(playerPosition.x, transform.localPosition.y, transform.localPosition.z);
+            m_MainCamera.transform.localPosition = new Vector3(playerPosition.x, playerPosition.y, transform.localPosition.z);
         }
     }
 }
