@@ -9,6 +9,11 @@ TagManager:
   - Key
   - Door
   - Gems
+  - GreenSlime
+  - OrangeSlime
+  - Spikes
+  - Plataform
+  - Lava
   layers:
   - Default
   - TransparentFX
